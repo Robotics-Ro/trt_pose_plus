@@ -15,6 +15,7 @@ from trt_pose.parse_objects import ParseObjects
 import argparse
 import os.path
 
+import tegra_cam_rec
 import glob
 from DetectorLoader import TinyYOLOv3_onecls
 
@@ -158,23 +159,17 @@ def preprocess(image):
 count = 0
 
 
-
-cap = cv2.VideoCapture("v4l2src device=/dev/video3 ! video/x-raw, width=640, height=480, format=(string)YUY2 ! xvimagesink -e")
+gst_input = "v4l2src device=/dev/video3 ! video/x-raw, width=(int)640, height=(int)480 ! videoconvert ! appsink"
+cap = cv2.VideoCapture(gst_input, cv2.CAP_GSTREAMER)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
-outvid = False
-if args.save_out != '':
-    outvid = True
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    gst_out = "appsrc ! video/x-raw, format=BGR ! queue ! videoconvert ! video  /x-raw,format=BGRx ! nvvidconv ! nvv4l2h264enc ! h264parse ! matroskamux ! filesink location=test.mkv"
-    codec = cv2.VideoWriter_fourcc(*'MJPG')
-    writer = cv2.VideoWriter(gst_out, cv2.CAP_GSTREAMER, 0, float(fps), (inp_dets * 2, inp_dets * 2))
-    # movie = cv2.VideoWriter()
 
-# ret_val, img = cap.read() 
-# fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-# out_video = cv2.VideoWriter('/Movie/output.avi', fourcc, cap.get(cv2.CAP_PROP_FPS), (640, 480))
+
+outvid = True
+fps = cap.get(cv2.CAP_PROP_FPS)
+fps = int(fps)
+gst_out = "appsrc ! videoconvert ! omxh264enc ! mpegtsmux ! filesink location=test.ts"
 
 
 X_compress = 640.0 / WIDTH * 1.0
@@ -187,8 +182,14 @@ if cap is None:
 parse_objects = ParseObjects(topology)
 draw_objects = DrawObjects(topology)
 
-while cap.isOpened() and True:
-    t = time.time()
+
+t = time.time()
+
+writer = tegra_cam_rec.get_video_writer("test", fps, 640, 480)
+if not writer.isOpened():
+    cap.release()
+    sys.exit('Failed to open "{}.ts"!'.format(args.ts_file))
+for ret_val in range (fps * 10):
     ret_val, dst = cap.read()
     if ret_val == False:
         print("Camera read Error")
@@ -196,9 +197,11 @@ while cap.isOpened() and True:
 
     img = cv2.resize(dst, dsize=(WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
     src = execute(img, dst, t)
-
-    if outvid:
-        writer.write(src)
+    cv2.imshow('src', src)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+    #count += 1
+    writer.write(src)
             # cv2.imwrite("./Movie/%06d.jpg" % count, src)
             # print('Read a new frame: ', ret_val)
             # if count == 200 :
@@ -218,13 +221,7 @@ while cap.isOpened() and True:
             #                 loop=0
             # )
 
-    cv2.imshow('src', src)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-    #count += 1
-if outvid:
-    writer.release()
+writer.release()
 
 cv2.destroyAllWindows()
 # out_video.release()
