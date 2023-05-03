@@ -1,0 +1,3 @@
+[submodule "Jetson-HFDT"]
+	path = Jetson-HFDT
+	url = https://github.com/Robotics-Ro/Jetson-HFDT.git
