@@ -1,3 +1,6 @@
 [submodule "Jetson-HFDT"]
 	path = Jetson-HFDT
 	url = https://github.com/Robotics-Ro/Jetson-HFDT.git
+[submodule "jetson-nano-l515"]
+	path = jetson-nano-l515
+	url = https://github.com/Robotics-Ro/jetson-nano-l515.git
