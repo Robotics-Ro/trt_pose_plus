@@ -124,10 +124,10 @@ def execute(img, src, get_time):
                 detections = [Detection(bbox, keypoints, np.mean(keypoints[:, 2]))]
 
                 cv2.circle(src, (x, y), 3, color, 2)
-                frame = cv2.resize(frame, (0, 0), fx=2., fy=2.)
-                frame = cv2.putText(frame, '%d, FPS: %f' % (f, 1.0 / (time.time() - get_time)),
+                src = cv2.resize(img, (0, 0), fx=2., fy=2.)
+                src = cv2.putText(src, '%d, FPS: %f' % (f, 1.0 / (time.time() - get_time)),
                                     (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-                frame = frame[:, :, ::-1]
+                src = src[:, :, ::-1]
                 get_time = time.time()
                 cv2.circle(src, (x, y), 3, color, 2)
 
