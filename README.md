@@ -78,3 +78,9 @@ The trt_pose model architectures listed above are inspired by the following work
 *  _Cao, Zhe, et al. "Realtime multi-person 2d pose estimation using part affinity fields." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2017._
 
 *  _Xiao, Bin, Haiping Wu, and Yichen Wei. "Simple baselines for human pose estimation and tracking." Proceedings of the European Conference on Computer Vision (ECCV). 2018._
+
+## Trouble Shooting
+torch 1.12.0
+```
+pip3 install torch==1.12.0
+```
