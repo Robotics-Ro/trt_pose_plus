@@ -84,3 +84,7 @@ torch 1.12.0
 ```
 pip3 install torch==1.12.0
 ```
+cuda
+```
+pip3 install pycuda
+```
