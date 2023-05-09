@@ -82,7 +82,7 @@ The trt_pose model architectures listed above are inspired by the following work
 ## Trouble Shooting
 torch 1.12.0
 ```
-pip3 install torch==1.12.0
+wget https://developer.download.nvidia.com/compute/redist/jp/v50/pytorch/torch-1.12.0a0+8a1a93a9.nv22.5-cp38-cp38-linux_aarch64.whl
 ```
 cuda
 ```
