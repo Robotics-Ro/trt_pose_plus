@@ -85,7 +85,12 @@ torch 1.12.0
 wget https://developer.download.nvidia.com/compute/redist/jp/v50/pytorch/torch-1.12.0a0+8a1a93a9.nv22.5-cp38-cp38-linux_aarch64.whl
 pip3 install torch-1.12.0a0+8a1a93a9.nv22.5-cp38-cp38-linux_aarch64.whl
 ```
-cuda
+import TensorRT
 ```
-pip3 install pycuda
+export PYTHONPATH=/usr/lib/python3.6/dist-packages:$PYTHONPATH
+```
+
+Illegal instruction (core dumped)
+```
+export OPENBLAS_CORETYPE=ARMV8
 ```
