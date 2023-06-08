@@ -80,11 +80,15 @@ The trt_pose model architectures listed above are inspired by the following work
 *  _Xiao, Bin, Haiping Wu, and Yichen Wei. "Simple baselines for human pose estimation and tracking." Proceedings of the European Conference on Computer Vision (ECCV). 2018._
 
 ## Trouble Shooting
+### Using Python venv env(pip3)
 torch 1.12.0
 ```
 wget https://developer.download.nvidia.com/compute/redist/jp/v50/pytorch/torch-1.12.0a0+8a1a93a9.nv22.5-cp38-cp38-linux_aarch64.whl
 pip3 install torch-1.12.0a0+8a1a93a9.nv22.5-cp38-cp38-linux_aarch64.whl
 ```
+torchvision install reference site
+https://qengineering.eu/install-pytorch-on-jetson-nano.html
+
 import TensorRT
 ```
 export PYTHONPATH=/usr/lib/python3.6/dist-packages:$PYTHONPATH
